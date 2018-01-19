@@ -9,8 +9,21 @@ const store = [
 
 function generateListItem(item, index) {
   return `
-  <li>${item.name}</li>
-  `;
+  <li class="js-item-index-element" data-item-index="${index}">
+    <span class="shopping-item js-shopping-item ${item.checked} ? 'shopping-item__checked' : ''}">${item.name}</span>
+    <div class="shopping-item-controls">
+      <button class="shopping-item-toggle js-item-toggle">
+        <span class="button-label">check</span>
+      </button>
+      <button class="shopping-item-delete js-item-delete">
+        <span class="button-label">delete</span>
+      </button>
+    </div>
+    </li >`;
+ 
+  // return `
+  // <li>${item.name}</li>
+  // `;
 }
 
 function generateList(shoppingList) {
@@ -24,16 +37,31 @@ function renderShoppingList(item) {
   $('.shopping-list').html(shoppingList);
 }
 
+function addItemToShoppingList(itemName) {
+  store.push({name:itemName, checked: false});
+}
 
 function handleNewItemSubmit() {
-  // this function will be responsible for when users add a new shopping list item
+  $('#js-shopping-list-form').submit (function(event){
+    event.preventDefault();
+    const newItem = $('.js-shopping-list-entry').val();
+    addItemToShoppingList (newItem);
+    $('.js-shopping-list-entry').val('');
+    renderShoppingList();
+  })
   console.log('`handleNewItemSubmit` ran');
 }
 
+function getItemIndexFromElement(item) {
+  const itemIndexString = $(item).closest('.js-item-index-element').attr('.data-item-index');
+  return parseInt(itemIndexString, 10);
+}
 
 function handleItemCheckClicked() {
-  // this funciton will be reponsible for when users click the "check" button on
-  // a shopping list item.
+  $('.js-shopping-list').on ('click', '.js-item-toggle', function(event){
+    const itemIndex = getItemIndexFromElement(event.currentTarget);
+  });
+
   console.log('`handleItemCheckClicked` ran');
 }
 
