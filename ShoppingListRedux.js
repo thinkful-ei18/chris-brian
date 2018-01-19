@@ -10,7 +10,7 @@ const store = [
 function generateListItem(item, index) {
   return `
   <li class="js-item-index-element" data-item-index="${index}">
-    <span class="shopping-item js-shopping-item ${item.checked} ? 'shopping-item__checked' : ''}">${item.name}</span>
+    <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}">${item.name}</span>
     <div class="shopping-item-controls">
       <button class="shopping-item-toggle js-item-toggle">
         <span class="button-label">check</span>
@@ -20,10 +20,13 @@ function generateListItem(item, index) {
       </button>
     </div>
     </li >`;
- 
-  // return `
-  // <li>${item.name}</li>
-  // `;
+}
+
+function toggleChecked() {
+  // if checked = true, hide else show
+  $("#hideshow").click(function() {
+    const items = store.map(function(items, index) {});
+  });
 }
 
 function generateList(shoppingList) {
@@ -42,33 +45,45 @@ function addItemToShoppingList(itemName) {
 }
 
 function handleNewItemSubmit() {
-  $('#js-shopping-list-form').submit (function(event){
+  $('#js-shopping-list-form').submit(function(event){
     event.preventDefault();
     const newItem = $('.js-shopping-list-entry').val();
-    addItemToShoppingList (newItem);
+    addItemToShoppingList(newItem);
     $('.js-shopping-list-entry').val('');
     renderShoppingList();
   })
   console.log('`handleNewItemSubmit` ran');
 }
 
+function toggleCheckedForListItem(itemIndex) {
+  store[itemIndex].checked = !store[itemIndex].checked;
+}
+
 function getItemIndexFromElement(item) {
-  const itemIndexString = $(item).closest('.js-item-index-element').attr('.data-item-index');
-  return parseInt(itemIndexString, 10);
+  const itemIndexString = $(item).closest('.js-item-index-element').attr('data-item-index');
+  return (parseInt(itemIndexString, 10));
 }
 
 function handleItemCheckClicked() {
   $('.js-shopping-list').on ('click', '.js-item-toggle', function(event){
     const itemIndex = getItemIndexFromElement(event.currentTarget);
+    toggleCheckedForListItem(itemIndex);
+    renderShoppingList();
   });
 
   console.log('`handleItemCheckClicked` ran');
 }
 
+function deleteItemClicked(itemIndex) {
+  delete store[itemIndex];
+}
 
 function handleDeleteItemClicked() {
-  // this function will be responsible for when users want to delete a shopping list
-  // item
+  $('.js-shopping-list').on ('click', '.js-item-delete', function(event){
+    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    deleteItemClicked(itemIndex);
+    renderShoppingList();
+  });
   console.log('`handleDeleteItemClicked` ran');
 }
 
