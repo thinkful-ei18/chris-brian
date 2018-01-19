@@ -1,11 +1,14 @@
 'use strict';
 
-const store = [
-  { name: 'apples', checked: false },
-  { name: 'oranges', checked: false },
-  { name: 'milk', checked: true },
-  { name: 'bread', checked: false }
-];
+const store = {
+  items: [
+    { name: 'apples', checked: false },
+    { name: 'oranges', checked: false },
+    { name: 'milk', checked: true },
+    { name: 'bread', checked: false }
+  ], 
+  hideChecked: false
+};
 
 function generateListItem(item, index) {
   return `
@@ -25,9 +28,9 @@ function generateListItem(item, index) {
 function toggleChecked() {
   // if checked = true, hide else show
   $('.js-search-form').on('click', '.toggleClass', function(event) { 
-    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    // const itemIndex = getItemIndexFromElement(event.currentTarget);
     console.log(itemIndex);
-    const items = store.map(function(items, index) {});
+    // const items = store.map(function(items, index) {});
   });
 }
 
@@ -38,12 +41,12 @@ function generateList(shoppingList) {
 
 function renderShoppingList(item) {
   console.log('`renderShoppingList` ran');
-  const shoppingList = generateList(store);
+  const shoppingList = generateList(store.items);
   $('.shopping-list').html(shoppingList);
 }
 
 function addItemToShoppingList(itemName) {
-  store.push({name:itemName, checked: false});
+  store.items.push({name:itemName, checked: false});
 }
 
 function handleNewItemSubmit() {
@@ -58,7 +61,7 @@ function handleNewItemSubmit() {
 }
 
 function toggleCheckedForListItem(itemIndex) {
-  store[itemIndex].checked = !store[itemIndex].checked;
+  store.items[itemIndex].checked = !store.items[itemIndex].checked;
 }
 
 function getItemIndexFromElement(item) {
@@ -78,7 +81,7 @@ function handleItemCheckClicked() {
 }
 
 function deleteItemClicked(itemIndex) {
-  delete store[itemIndex];
+  delete store.items[itemIndex];
 }
 
 function handleDeleteItemClicked() {
@@ -98,7 +101,7 @@ function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
   toggleChecked();
-  // handleItemCheckClicked();
+  handleItemCheckClicked();
   handleDeleteItemClicked();
   
 }
