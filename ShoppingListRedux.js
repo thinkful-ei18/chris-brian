@@ -24,7 +24,9 @@ function generateListItem(item, index) {
 
 function toggleChecked() {
   // if checked = true, hide else show
-  $("#hideshow").click(function() {
+  $('.js-search-form').on('click', '.toggleClass', function(event) { 
+    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    console.log(itemIndex);
     const items = store.map(function(items, index) {});
   });
 }
@@ -61,13 +63,14 @@ function toggleCheckedForListItem(itemIndex) {
 
 function getItemIndexFromElement(item) {
   const itemIndexString = $(item).closest('.js-item-index-element').attr('data-item-index');
-  return (parseInt(itemIndexString, 10));
+  return parseInt(itemIndexString, 10);
 }
 
 function handleItemCheckClicked() {
   $('.js-shopping-list').on ('click', '.js-item-toggle', function(event){
     const itemIndex = getItemIndexFromElement(event.currentTarget);
     toggleCheckedForListItem(itemIndex);
+    console.log(itemIndex);
     renderShoppingList();
   });
 
@@ -94,8 +97,10 @@ function handleDeleteItemClicked() {
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
-  handleItemCheckClicked();
+  toggleChecked();
+  // handleItemCheckClicked();
   handleDeleteItemClicked();
+  
 }
 
 $(handleShoppingList);
