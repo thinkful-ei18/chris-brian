@@ -7,23 +7,21 @@ const store = [
   { name: 'bread', checked: false }
 ];
 
+function generateListItem(item, index) {
+  return `
+  <li>${item.name}</li>
+  `;
+}
 
-function renderShoppingList() {
-  const itemClass = item.completed ? 'shopping-item_checked' : '';
-  
-  $("shopping-list")
-  `<li>
-    <span class="shopping-item" ${itemClass}>apples</span>
-    <div class="shopping-item-controls">
-      <button class="shopping-item-toggle">
-        <span class="button-label">check</span>
-      </button>
-      <button class="shopping-item-delete">
-        <span class="button-label">delete</span>
-      </button>
-    </div>
-  </li>`
+function generateList(shoppingList) {
+  const items = shoppingList.map((items, index) => generateListItem(items, index));
+  return items.join('');
+}
+
+function renderShoppingList(item) {
   console.log('`renderShoppingList` ran');
+  const shoppingList = generateList(store);
+  $('.shopping-list').html(shoppingList);
 }
 
 
@@ -51,5 +49,10 @@ function handleDeleteItemClicked() {
 // that handle new item submission and user clicks on the "check" and "delete" buttons
 // for individual shopping list items.
 function handleShoppingList() {
-
+  renderShoppingList();
+  handleNewItemSubmit();
+  handleItemCheckClicked();
+  handleDeleteItemClicked();
 }
+
+$(handleShoppingList);
